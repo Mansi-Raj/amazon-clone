@@ -1,3 +1,8 @@
+.main {
+  /* Pushes the content down so it's not hidden behind the 60px header */
+  margin-top: 50px; 
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
@@ -132,7 +137,6 @@
   font-size: 16px;
 
   display: flex;
-  align-items: center;
   margin-bottom: 8px;
 
   /* At first, the "Added to cart" message will
@@ -141,8 +145,7 @@
   opacity: 0;
 }
 .add-to-cart-button {
-  margin: auto;
-  width: 80%;
+  width: 60%;
   padding: 8px;
   border-radius: 20px;
   background-color: #d8bf43;
