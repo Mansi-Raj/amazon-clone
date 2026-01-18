@@ -1,1 +1,1 @@
-# amazon-project
+# AMAZONE CLONE
