@@ -1,6 +1,6 @@
 import './header.css';
 
-export function Header(){
+export function Header({ cartQuantity }){
   return(
     <div className="amazon-header">
       <div className="amazon-header-left-section">
@@ -28,7 +28,7 @@ export function Header(){
 
         <a className="cart-link header-link" href="checkout.html">
           <img className="cart-icon" src="images/icons/cart-icon.png"/>
-          <div className="cart-quantity js-cart-quantity">0</div>
+          <div className="cart-quantity js-cart-quantity">{cartQuantity}</div>
           <div className="cart-text">Cart</div>
         </a>
       </div>

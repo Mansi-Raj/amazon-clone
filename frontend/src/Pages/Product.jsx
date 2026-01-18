@@ -2,7 +2,7 @@ import { products } from '../data/products';
 import { moneyFormatting } from '../utilities/moneyFormatting';
 import './product.css';
 
-export function Product(){
+export function Product({ addToCart }){
   return(
     <div className="main">
       <div className="products-grid js-products-grid">
@@ -48,7 +48,7 @@ export function Product(){
               <div className={`add-to-cart js-added-${product.id}`}>
               </div>
             
-              <button className="add-to-cart-button button-primary js-add-to-cart" data-product-id ={product.id}>
+              <button className="add-to-cart-button button-primary" onClick={addToCart(product.id)} data-product-id ={product.id}>
                 Add to Cart
               </button>
             </div>
