@@ -6,7 +6,7 @@ function App() {
 
   return (
     <Routes>
-      <Route index element={HomePage}/>
+      <Route index element={<HomePage />}/>
     </Routes>
   )
 }

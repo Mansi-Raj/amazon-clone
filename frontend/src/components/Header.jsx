@@ -1,19 +1,18 @@
-import { Link } from 'react-router';
 import './header.css';
 
 export function Header(){
   return(
-    <div className="header">
-      <div className="left-section">
-        <Link to="/" className="header-link">
-          <img className="logo"
+    <div className="amazon-header">
+      <div className="amazon-header-left-section">
+        <a href="amazon.html" className="header-link">
+          <img className="amazon-logo"
             src="images/amazon-logo-white.png" />
-          <img className="mobile-logo"
+          <img className="amazon-mobile-logo"
             src="images/amazon-mobile-logo-white.png" />
-        </Link>
+        </a>
       </div>
 
-      <div className="middle-section">
+      <div className="amazon-header-middle-section">
         <input className="search-bar" type="text" placeholder="Search" />
 
         <button className="search-button">
@@ -21,17 +20,17 @@ export function Header(){
         </button>
       </div>
 
-      <div className="right-section">
-        <Link className="orders-link header-link" to="/orders">
+      <div className="amazon-header-right-section">
+        <a className="orders-link header-link" href="orders.html">
+          <span className="returns-text">Returns</span>
+          <span className="orders-text">& Orders</span>
+        </a>
 
-          <span className="orders-text">Orders</span>
-        </Link>
-
-        <Link className="cart-link header-link" to="/checkout">
-          <img className="cart-icon" src="images/icons/cart-icon.png" />
-          <div className="cart-quantity">3</div>
+        <a className="cart-link header-link" href="checkout.html">
+          <img className="cart-icon" src="images/icons/cart-icon.png"/>
+          <div className="cart-quantity js-cart-quantity">0</div>
           <div className="cart-text">Cart</div>
-        </Link>
+        </a>
       </div>
     </div>
   )
