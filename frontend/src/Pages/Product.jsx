@@ -5,6 +5,7 @@ import './product.css';
 
 export function Product({ addToCart }){
   const [quantity, setQuantity] = useState(1);
+  
   return(
     <div className="main">
       <div className="products-grid js-products-grid">
