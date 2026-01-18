@@ -12,7 +12,7 @@ export function HomePage(){
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
-  const cartQuantity = cart.reduce((total, product) => total + product.carQuantity, 0);
+  const cartQuantity = cart.reduce((total, product) => total + product.quantity, 0);
 
   const addToCart = (productId, quantity) =>{setCart(prevCart =>{
     const existingProduct = prevCart.find(product => product.productId === productId);

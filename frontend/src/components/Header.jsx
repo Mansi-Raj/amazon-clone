@@ -28,7 +28,7 @@ export function Header({ cartQuantity }){
 
         <a className="cart-link header-link" href="checkout.html">
           <img className="cart-icon" src="images/icons/cart-icon.png"/>
-          <div className="cart-quantity js-cart-quantity">{cartQuantity}</div>
+          <div className="cart-quantity js-cart-quantity">{cartQuantity || 0}</div>
           <div className="cart-text">Cart</div>
         </a>
       </div>
