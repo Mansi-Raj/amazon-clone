@@ -3,8 +3,8 @@ import { Header } from '../components/Header';
 import { Product } from './Product';
 
 export function HomePage(){
-  const [cartQuantity, addToCart] = Cart();
-  
+  const {cartQuantity, addToCart} = Cart();
+
   return(
     <div className="homePage">
       <Header cartQuantity={cartQuantity}/>

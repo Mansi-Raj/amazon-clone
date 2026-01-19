@@ -1,11 +1,8 @@
-import { useState } from 'react';
 import { products } from '../data/products';
 import { moneyFormatting } from '../utilities/moneyFormatting';
 import './product.css';
 
-export function Product({ addToCart }){
-  const [quantity, setQuantity] = useState(1);
-  
+export function Product({addToCart}){
   return(
     <div className="main">
       <div className="products-grid js-products-grid">
@@ -31,7 +28,7 @@ export function Product({ addToCart }){
                 ${moneyFormatting(product.priceCents)}
               </div>
             
-              <div className="product-quantity-container" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}>
+              <div className="product-quantity-container">
                 <select>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -51,7 +48,7 @@ export function Product({ addToCart }){
               <div className={`add-to-cart js-added-${product.id}`}>
               </div>
             
-              <button className="add-to-cart-button button-primary" onClick={()=>addToCart(product.id, quantity)} data-product-id ={product.id}>
+              <button className="add-to-cart-button button-primary js-add-to-cart" data-product-id ={product.id} onClick={addToCart(product.id, 1)}>
                 Add to Cart
               </button>
             </div>

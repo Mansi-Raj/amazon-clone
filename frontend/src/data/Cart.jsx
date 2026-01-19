@@ -23,5 +23,5 @@ export function Cart(){
   });
   };
 
-  return {cart, addToCart, cartQuantity};
+  return {cartQuantity, addToCart, cart};
 }
