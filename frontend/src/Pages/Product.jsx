@@ -27,7 +27,7 @@ export function Product({addToCart}){
               </div>
             
               <div className="product-price">
-                ${moneyFormatting(product.priceCents)}
+                ₹{moneyFormatting(product.priceCents)}
               </div>
             
               <div className="product-quantity-container">
@@ -48,7 +48,7 @@ export function Product({addToCart}){
             
               <div className="product-spacer"></div>
             
-              <div className={`add-to-cart js-added-${product.id}`}>
+              <div className={`add-to-cart js-added-₹{product.id}`}>
               </div>
             
               <button className="add-to-cart-button button-primary js-add-to-cart" data-product-id ={product.id} onClick={

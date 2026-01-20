@@ -4,7 +4,7 @@ import { PaymentSummary } from './PaymentSummary';
 import './checkout.css';
 import './checkout-header.css';
 
-export function Checkout({cartQuantity, cart, updateDeliveryOption}){
+export function Checkout({cartQuantity, cart, updateDeliveryOption, removeFromCart, updateQuantity}){
   return(
     <>
       <div className="checkout-header">
@@ -34,6 +34,8 @@ export function Checkout({cartQuantity, cart, updateDeliveryOption}){
             <div className="order-summary-details">
               <OrderSummary cart={cart} 
                 updateDeliveryOption={updateDeliveryOption}
+                removeFromCart={removeFromCart}
+                updateQuantity={updateQuantity}
               />
             </div>
 

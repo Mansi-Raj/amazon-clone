@@ -217,6 +217,7 @@
 }
 
 .update-quantity-link,
+.save-quantity-link,
 .delete-quantity-link{
   cursor: pointer;
 }

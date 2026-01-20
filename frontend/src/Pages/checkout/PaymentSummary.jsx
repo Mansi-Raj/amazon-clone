@@ -29,35 +29,35 @@ export function PaymentSummary({cart, cartQuantity}){
     <div className="payment-summary-row">
       <div>Items ({cartQuantity || 0}):</div>
       <div className="payment-summary-money">
-        ${moneyFormatting(totalProductPrice)}
+        ₹{moneyFormatting(totalProductPrice)}
       </div>
     </div>
 
     <div className="payment-summary-row">
       <div>Shipping &amp; handling:</div>
       <div className="payment-summary-money">
-        ${moneyFormatting(totalShippingCost)}
+        ₹{moneyFormatting(totalShippingCost)}
       </div>
     </div>
 
     <div className="payment-summary-row subtotal-row">
       <div>Total before tax:</div>
       <div className="payment-summary-money">
-        ${moneyFormatting(totalBeforeTax)}
+        ₹{moneyFormatting(totalBeforeTax)}
       </div>
     </div>
 
     <div className="payment-summary-row">
       <div>Estimated tax (10%):</div>
       <div className="payment-summary-money">
-        ${moneyFormatting(totalTax)}
+        ₹{moneyFormatting(totalTax)}
       </div>
     </div>
 
     <div className="payment-summary-row total-row">
       <div>Order total:</div>
       <div className="payment-summary-money">
-        ${moneyFormatting(total)}
+        ₹{moneyFormatting(total)}
       </div>
     </div>
 

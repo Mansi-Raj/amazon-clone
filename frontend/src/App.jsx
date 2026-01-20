@@ -5,7 +5,7 @@ import { Checkout } from './Pages/checkout/Checkout';
 import './App.css';
 
 function App() {
-  const {cartQuantity, addToCart, cart, updateDeliveryOption} = useCart();
+  const {cartQuantity, addToCart, cart, updateDeliveryOption, removeFromCart, updateQuantity} = useCart();
 
   return (
     <Routes>
@@ -14,7 +14,10 @@ function App() {
       <Route path='/checkout' element={<Checkout 
         cartQuantity={cartQuantity} 
         cart={cart} 
-        updateDeliveryOption={updateDeliveryOption}/>}/>
+        updateDeliveryOption={updateDeliveryOption}
+        removeFromCart={removeFromCart}
+        updateQuantity={updateQuantity}/>}
+      />
     </Routes>
   )
 }
