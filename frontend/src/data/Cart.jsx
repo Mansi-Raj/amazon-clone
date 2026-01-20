@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export function Cart(){
+export function useCart(){
   const[cart, setCart] = useState(()=>{
     const savedCart = localStorage.getItem('cart');
     return savedCart ? JSON.parse(savedCart):[];

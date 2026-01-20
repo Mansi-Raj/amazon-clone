@@ -1,9 +1,7 @@
-import { Cart } from '../data/cart';
 import { Header } from '../components/Header';
 import { Product } from './Product';
 
-export function HomePage(){
-  const {cartQuantity, addToCart} = Cart();
+export function HomePage({cartQuantity, addToCart}){
 
   return(
     <div className="homePage">
