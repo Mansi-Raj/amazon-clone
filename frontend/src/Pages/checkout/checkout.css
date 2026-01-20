@@ -60,7 +60,7 @@
 }
 
 .delivery-date {
-  color: rgb(0, 118, 0);
+  color: rgb(17, 136, 43);
   font-weight: 700;
   font-size: 19px;
   margin-top: 5px;
@@ -199,6 +199,9 @@
 
   margin-top: 11px;
   margin-bottom: 15px;
+  background-color: #d8bf43;
+  border:none;
+  cursor: pointer;
 }
 
 .quantity-input {
@@ -211,4 +214,9 @@
 .quantity-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.update-quantity-link,
+.delete-quantity-link{
+  cursor: pointer;
 }

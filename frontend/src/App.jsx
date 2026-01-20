@@ -5,12 +5,16 @@ import { Checkout } from './Pages/checkout/Checkout';
 import './App.css';
 
 function App() {
-  const {cartQuantity, addToCart, cart} = useCart();
+  const {cartQuantity, addToCart, cart, updateDeliveryOption} = useCart();
 
   return (
     <Routes>
       <Route index element={<HomePage cartQuantity={cartQuantity} addToCart={addToCart}/>}/>
-      <Route path='/checkout' element={<Checkout cartQuantity={cartQuantity} cart={cart}/>}/>
+
+      <Route path='/checkout' element={<Checkout 
+        cartQuantity={cartQuantity} 
+        cart={cart} 
+        updateDeliveryOption={updateDeliveryOption}/>}/>
     </Routes>
   )
 }

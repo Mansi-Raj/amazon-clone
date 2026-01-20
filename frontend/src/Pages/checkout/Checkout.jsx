@@ -1,9 +1,10 @@
 import { Link } from 'react-router';
 import { OrderSummary } from './OrderSummary';
+import { PaymentSummary } from './PaymentSummary';
 import './checkout.css';
 import './checkout-header.css';
 
-export function Checkout({cartQuantity, cart}){
+export function Checkout({cartQuantity, cart, updateDeliveryOption}){
   return(
     <>
       <div className="checkout-header">
@@ -31,11 +32,15 @@ export function Checkout({cartQuantity, cart}){
 
           <div className="checkout-grid">
             <div className="order-summary-details">
-              <OrderSummary cart={cart} />
+              <OrderSummary cart={cart} 
+                updateDeliveryOption={updateDeliveryOption}
+              />
             </div>
 
             <div className="payment-summary js-payment-summary">
-              {/* Payment content goes here */}
+              <PaymentSummary cart={cart} 
+                cartQuantity={cartQuantity}
+              />
             </div>
           </div>
         </div>

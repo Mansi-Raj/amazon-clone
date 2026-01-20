@@ -1,9 +1,9 @@
 import { products } from '../../data/products';
 import { moneyFormatting } from '../../utilities/moneyFormatting';
-import { deliveryOptions, calculateDeliveryDate } from '../../data/deliveryOptions';
+import { deliveryOptions, calculateDeliveryDate, getSelectedDeliveryOption } from '../../data/deliveryOptions';
 import '../checkout/checkout.css';
 
-export function OrderSummary({ cart }) {
+export function OrderSummary({ cart, updateDeliveryOption }) {
   return (
     <>
       {cart.map((cartItem) => {
@@ -11,11 +11,14 @@ export function OrderSummary({ cart }) {
 
         if (!product) return null;
 
+        const deliveryOptionId = cartItem.deliveryOptionId || '1';
+        const deliveryOption = getSelectedDeliveryOption(deliveryOptionId);
+
         return (
           <div className="cart-item-container" key={product.id}>
             <div className="order-summary js-order-summary">
               <div className="delivery-date">
-                Delivery date:
+                Delivery date: {calculateDeliveryDate(deliveryOption)}
               </div>
 
               <div className="cart-item-details-grid">
@@ -50,7 +53,10 @@ export function OrderSummary({ cart }) {
                   <div className="delivery-options-title">
                     Choose a delivery option:
                   </div>
-                  <DeliveryOptions product={product} cartItem={cartItem} />
+                  <DeliveryOptions product={product} 
+                  cartItem={cartItem}
+                  updateDeliveryOption={updateDeliveryOption}
+                  />
                 </div>
               </div>
             </div>
@@ -61,7 +67,7 @@ export function OrderSummary({ cart }) {
   );
 }
 
-function DeliveryOptions({ product, cartItem }) {
+function DeliveryOptions({ product, cartItem, updateDeliveryOption }) {
   return (
     <>
       {deliveryOptions.map((deliveryOption) => {
@@ -69,14 +75,13 @@ function DeliveryOptions({ product, cartItem }) {
         const priceString = deliveryOption.priceCents === 0
           ? 'FREE'
           : `$${moneyFormatting(deliveryOption.priceCents)} -`;
-        const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
+        const isChecked = deliveryOption.id === (cartItem.deliveryOptionId || '1');
 
         return (
           <div
             key={deliveryOption.id}
             className="delivery-option js-delivery-option"
-            data-product-id={product.id}
-            data-delivery-option-id={deliveryOption.id}
+            onClick={() => updateDeliveryOption(product.id, deliveryOption.id)}
           >
             <input
               type="radio"
@@ -84,6 +89,7 @@ function DeliveryOptions({ product, cartItem }) {
               className="delivery-option-input"
               name={`delivery-option-${product.id}`}
               readOnly
+              onChange={() => updateDeliveryOption(product.id, deliveryOption.id)}
             />
             <div>
               <div className="delivery-option-date">

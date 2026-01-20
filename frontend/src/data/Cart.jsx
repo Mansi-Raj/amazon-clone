@@ -18,10 +18,20 @@ export function useCart(){
     if(existingProduct){
       return prevCart.map( product => product.productId === productId ? {...product, quantity:product.quantity+quantity}:product);
     }else{
-      return[...prevCart, {productId, quantity}];
+      return[...prevCart, {productId, quantity, deliveryOptionId: '1'}];
     }
   });
   };
 
-  return {cartQuantity, addToCart, cart};
+  const updateDeliveryOption = (productId, deliveryOptionId) => {
+    setCart(prevCart => {
+      return prevCart.map(product => 
+        product.productId === productId 
+          ? { ...product, deliveryOptionId } 
+          : product
+      );
+    });
+  };
+
+  return {cartQuantity, addToCart, cart, updateDeliveryOption};
 }
