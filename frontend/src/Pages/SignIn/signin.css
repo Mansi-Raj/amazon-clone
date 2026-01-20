@@ -1,0 +1,181 @@
+.signin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  background-color: white;
+  min-height: 100vh;
+  font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.signin-logo {
+  width: 103px;
+  margin-bottom: 20px;
+  object-fit: contain;
+}
+
+.signin-box {
+  width: 350px;
+  padding: 20px 26px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  margin-bottom: 20px;
+}
+
+.signin-header {
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.2;
+  margin-bottom: 15px;
+  margin-top: 0;
+}
+
+.signin-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+.signin-input {
+  width: 100%;
+  padding: 8px 7px;
+  margin-bottom: 10px;
+  border: 1px solid #a6a6a6;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+.signin-input:focus {
+  border-color: #e77600;
+  box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5);
+  outline: none;
+}
+
+.forgot-password-link {
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+.signin-button {
+  width: 100%;
+  margin-top: 5px;
+  font-size: 13px;
+  padding: 6px;
+  background: #f0c14b;
+  border-color: #a88734 #9c7e31 #846a29;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+}
+
+.signin-button:hover {
+  background: #f4d078;
+}
+
+.error-message-box {
+  border: 1px solid #c40000;
+  border-radius: 4px;
+  padding: 14px 18px;
+  margin-bottom: 15px;
+  display: flex;
+  box-shadow: 0 0 0 4px #fff inset; 
+}
+
+.error-icon {
+  color: #c40000;
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.error-text {
+  font-size: 13px;
+}
+
+.error-header {
+  color: #c40000;
+  font-weight: 700;
+}
+
+.signin-terms, .signin-help {
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 15px;
+  color: #333;
+}
+
+.link-primary {
+  color: #0066c0;
+  text-decoration: none;
+}
+
+.link-primary:hover {
+  text-decoration: underline;
+  color: #c45500;
+}
+
+/* New Account Divider */
+.new-account-section {
+  width: 350px;
+  text-align: center;
+}
+
+.new-account-divider {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.divider-line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #e7e7e7;
+}
+
+.divider-text {
+  padding: 0 10px;
+  font-size: 12px;
+  color: #767676;
+}
+
+.create-account-button {
+  width: 100%;
+  padding: 6px;
+  background: #e7e9ec;
+  border: 1px solid #8d9096;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.create-account-button:hover {
+  background-color: #dfe1e5;
+}
+
+.signin-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  width: 100%;
+  border-top: 1px solid #e7e7e7;
+  background: linear-gradient(to bottom,rgba(0,0,0,.14),rgba(0,0,0,.03) 3px,transparent);
+  text-align: center;
+}
+
+.footer-links a {
+  margin: 0 10px;
+  font-size: 11px;
+  color: #0066c0;
+  text-decoration: none;
+}
+
+.footer-copyright {
+  margin-top: 10px;
+  font-size: 11px;
+  color: #555;
+}

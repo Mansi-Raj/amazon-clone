@@ -66,7 +66,7 @@ body {
 
 .amazon-header-middle-section {
   flex: 1;
-  max-width: 850px;
+  max-width: 600px;
   margin-left: 10px;
   margin-right: 10px;
   display: flex;
@@ -103,7 +103,7 @@ body {
 }
 
 .amazon-header-right-section {
-  width: 180px;
+  width: 250px;
   flex-shrink: 0;
   display: flex;
   justify-content: end;
@@ -113,15 +113,15 @@ body {
   color: white;
 }
 
-.returns-text {
-  display: block;
-  font-size: 13px;
-}
-
 .orders-text {
   display: block;
   font-size: 15px;
   font-weight: 700;
+}
+
+.returns-text {
+  font-size: 13px;
+  font-weight: 50;
 }
 
 .cart-link {

@@ -22,6 +22,11 @@ export function Header({ cartQuantity }){
       </div>
 
       <div className="amazon-header-right-section">
+        <Link className="orders-link header-link" to="/signin">
+          <span className="returns-text">Hello,</span>
+          <span className="orders-text">Sign in</span>
+        </Link>
+
         <Link className="orders-link header-link" to="/return&orders">
           <span className="returns-text">Returns</span>
           <span className="orders-text">& Orders</span>

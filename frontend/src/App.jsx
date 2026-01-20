@@ -2,6 +2,8 @@ import { useCart } from '../src/data/cart';
 import { Routes, Route } from 'react-router';
 import { HomePage } from './Pages/Homepage';
 import { Checkout } from './Pages/checkout/Checkout';
+import { SignIn } from './Pages/SignIn/Signin';
+import { SignUp } from './Pages/SignIn/Signup';
 import './App.css';
 
 function App() {
@@ -18,6 +20,9 @@ function App() {
         removeFromCart={removeFromCart}
         updateQuantity={updateQuantity}/>}
       />
+
+      <Route path='/signin' element={<SignIn />} />
+      <Route path='/signup' element={<SignUp />} />
     </Routes>
   )
 }
