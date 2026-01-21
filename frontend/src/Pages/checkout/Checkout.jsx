@@ -7,6 +7,7 @@ import './checkout-header.css';
 export function Checkout({cartQuantity, cart, updateDeliveryOption, removeFromCart, updateQuantity}){
   return(
     <>
+      <title>Checkout</title>
       <div className="checkout-header">
         <div className="header-content">
           <div className="checkout-header-left-section">

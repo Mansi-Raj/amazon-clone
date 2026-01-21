@@ -45,6 +45,8 @@ export function SignUp() {
   };
 
   return (
+    <>
+    <title>Sign Up</title>
     <div className="signin-container">
       <Link to="/" className="signin-logo-link">
         <img className="signin-logo" src="images/amazon-logo.png" alt="Amazon Logo" />
@@ -125,5 +127,6 @@ export function SignUp() {
       <div className="signin-footer">
       </div>
     </div>
+    </>
   );
 }

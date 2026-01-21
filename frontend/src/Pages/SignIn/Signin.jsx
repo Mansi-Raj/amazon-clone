@@ -3,6 +3,8 @@ import './signin.css';
 
 export function SignIn() {
   return (
+    <>
+    <title>Sign In</title>
     <div className="signin-container">
       <Link to="/" className="signin-logo-link">
         <img className="signin-logo" src="images/amazon-logo.png" alt="Amazon Logo" />
@@ -47,5 +49,6 @@ export function SignIn() {
         </div>
       </div>
     </div>
+    </>
   );
 }
