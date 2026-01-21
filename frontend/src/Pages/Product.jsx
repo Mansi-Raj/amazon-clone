@@ -3,12 +3,28 @@ import { products } from '../data/products';
 import { moneyFormatting } from '../utilities/moneyFormatting';
 import './product.css';
 
-export function Product({addToCart}){
+export function Product({addToCart, search}){
+
+  const filteredProducts = products.filter((product) => {
+    if (!search) return true;
+    
+    const lowerSearch = search.toLowerCase();
+    
+    const nameMatch = product.name.toLowerCase().includes(lowerSearch);
+    
+    const keywordMatch = product.keywords?.some(keyword => 
+      keyword.toLowerCase().includes(lowerSearch)
+    );
+
+    return nameMatch || keywordMatch;
+  });
+  
   const [quantity, setQuantity] = useState(1);
+
   return(
     <div className="main-header">
       <div className="products-grid js-products-grid">
-        {products.map((product) => {
+        {filteredProducts.map((product) => {
           return(
             <div key={product.id} className="product-container">
               <div className="product-image-container">
@@ -32,7 +48,7 @@ export function Product({addToCart}){
             
               <div className="product-quantity-container">
                 <select value={quantity} 
-          onChange={(e) => setQuantity(Number(e.target.value))}>
+                  onChange={(e) => setQuantity(Number(e.target.value))}>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -48,7 +64,7 @@ export function Product({addToCart}){
             
               <div className="product-spacer"></div>
             
-              <div className={`add-to-cart js-added-₹{product.id}`}>
+              <div className={`add-to-cart js-added-${product.id}`}>
               </div>
             
               <button className="add-to-cart-button button-primary js-add-to-cart" data-product-id ={product.id} onClick={

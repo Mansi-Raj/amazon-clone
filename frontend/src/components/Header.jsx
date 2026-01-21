@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import './header.css';
 
-export function Header({ cartQuantity }){
+export function Header({ cartQuantity, setSearch }){
   return(
     <div className="amazon-header">
       <div className="amazon-header-left-section">
@@ -14,7 +14,9 @@ export function Header({ cartQuantity }){
       </div>
 
       <div className="amazon-header-middle-section">
-        <input className="search-bar" type="text" placeholder="Search" />
+        <input className="search-bar" type="text" placeholder="Search" 
+        onChange={(e) => setSearch(e.target.value)}
+        />
 
         <button className="search-button">
           <img className="search-icon" src="images/icons/search-icon.png" />
