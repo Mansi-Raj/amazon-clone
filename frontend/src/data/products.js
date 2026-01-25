@@ -1108,5 +1108,273 @@ export const products = [
       "apparel",
       "mens"
     ]
+  },
+  {
+    id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c7",
+    image: "images/products/besan.jpg",
+    name: "Fortune Besan (Chickpea Flour) - 500g",
+    rating: {
+      stars: 4.5,
+      count: 1240
+    },
+    priceCents: 5500,
+    keywords: [
+      "flour",
+      "cooking",
+      "baking",
+      "grocery"
+    ]
+  },
+  {
+    id: "15b6fc6f-327a-4ec4-896f-486349e85a3e",
+    image: "images/products/cadbury-bournville-70%.jpg",
+    name: "Cadbury Bournville Intense 70% Dark Chocolate",
+    rating: {
+      stars: 4.5,
+      count: 856
+    },
+    priceCents: 10000,
+    keywords: [
+      "chocolate",
+      "sweets",
+      "dark chocolate",
+      "snacks"
+    ]
+  },
+  {
+    id: "83d4ca15-0f35-48f5-b7a3-1ea210004f30",
+    image: "images/products/cadbury-dairy-milk-silk-fruit-nut-chocolate-137-g-product-images-o490659556-p490659556-0-202210171819-1000x1000.jpg",
+    name: "Cadbury Dairy Milk Silk Fruit & Nut - 137g",
+    rating: {
+      stars: 5,
+      count: 3400
+    },
+    priceCents: 17500,
+    keywords: [
+      "chocolate",
+      "sweets",
+      "dairy milk",
+      "snacks"
+    ]
+  },
+  {
+    id: "54e0eccd-8f36-462b-b68a-8182611d9adf",
+    image: "images/products/Chocolate_Milk_60g_Carton.webp",
+    name: "MrBeast Feastables Milk Chocolate Bar - 60g",
+    rating: {
+      stars: 4,
+      count: 520
+    },
+    priceCents: 45000,
+    keywords: [
+      "chocolate",
+      "sweets",
+      "snacks",
+      "imported"
+    ]
+  },
+  {
+    id: "3ebe75dc-64d2-4137-8860-1f5a963e534d",
+    image: "images/products/desi-makki-atta.jpg",
+    name: "The Great Food Factory Desi Makki Atta",
+    rating: {
+      stars: 4,
+      count: 85
+    },
+    priceCents: 7500,
+    keywords: [
+      "flour",
+      "corn flour",
+      "cooking",
+      "grocery"
+    ]
+  },
+  {
+    id: "8c9c52b5-5a19-4bcb-a5d1-158a74287c55",
+    image: "images/products/galaxy-smooth-milk-chocolate-bar.webp",
+    name: "Galaxy Smooth Milk Chocolate Bar",
+    rating: {
+      stars: 4.5,
+      count: 940
+    },
+    priceCents: 8000,
+    keywords: [
+      "chocolate",
+      "sweets",
+      "snacks"
+    ]
+  },
+  {
+    id: "dd82ca78-a18b-4e2a-9250-31e67412f98f",
+    image: "images/products/haldiram;s-nimbu-masala.jpg",
+    name: "Haldiram's Nimbu Masala Namkeen",
+    rating: {
+      stars: 4.5,
+      count: 2100
+    },
+    priceCents: 5000,
+    keywords: [
+      "snacks",
+      "namkeen",
+      "spicy"
+    ]
+  },
+  {
+    id: "77919bbe-0e56-475b-adde-4f24dfed3a06",
+    image: "images/products/hershey's-milk-chocolate.jpg",
+    name: "Hershey's Creamy Milk Chocolate Bar",
+    rating: {
+      stars: 4,
+      count: 670
+    },
+    priceCents: 6000,
+    keywords: [
+      "chocolate",
+      "sweets",
+      "snacks"
+    ]
+  },
+  {
+    id: "6b07d4e7-f540-454e-8a1e-363f25dbae7f",
+    image: "images/products/images.jpg",
+    name: "Amul Dark Chocolate 55% Rich Cocoa",
+    rating: {
+      stars: 4.5,
+      count: 1500
+    },
+    priceCents: 11000,
+    keywords: [
+      "chocolate",
+      "dark chocolate",
+      "sweets",
+      "snacks"
+    ]
+  },
+  {
+    id: "5968897c-4d27-4872-89f6-5bcb052746d9",
+    image: "images/products/India-Gate-Basmati-Rice-Bag-Super-5kg.jpg",
+    name: "India Gate Basmati Rice Super - 5kg",
+    rating: {
+      stars: 5,
+      count: 4200
+    },
+    priceCents: 86500,
+    keywords: [
+      "rice",
+      "basmati",
+      "cooking",
+      "grocery"
+    ]
+  },
+  {
+    id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c8",
+    image: "images/products/kale-chane.webp",
+    name: "Pure & Fresh Kale Chane (Black Chickpeas)",
+    rating: {
+      stars: 4.5,
+      count: 320
+    },
+    priceCents: 7500,
+    keywords: [
+      "pulses",
+      "chickpeas",
+      "grocery",
+      "healthy"
+    ]
+  },
+  {
+    id: "15b6fc6f-327a-4ec4-896f-486349e85a3f",
+    image: "images/products/kitkat.jpg",
+    name: "Nestle KitKat Delights Dark Chocolate",
+    rating: {
+      stars: 4.5,
+      count: 1540
+    },
+    priceCents: 6000,
+    keywords: [
+      "chocolate",
+      "dark chocolate",
+      "kitkat",
+      "snacks"
+    ]
+  },
+  {
+    id: "83d4ca15-0f35-48f5-b7a3-1ea210004f31",
+    image: "images/products/maggi-masala-veg-atta-noodles-single-pack-72gm.webp",
+    name: "Maggi Nutri-licious Masala Veg Atta Noodles - 72g",
+    rating: {
+      stars: 4.5,
+      count: 5600
+    },
+    priceCents: 2600,
+    keywords: [
+      "noodles",
+      "instant food",
+      "maggi",
+      "snacks"
+    ]
+  },
+  {
+    id: "54e0eccd-8f36-462b-b68a-8182611d9ae0",
+    image: "images/products/masalaoats.jpg",
+    name: "Saffola Masala Oats - Classic Masala",
+    rating: {
+      stars: 4.5,
+      count: 2100
+    },
+    priceCents: 16500,
+    keywords: [
+      "oats",
+      "breakfast",
+      "healthy",
+      "snacks"
+    ]
+  },
+  {
+    id: "3ebe75dc-64d2-4137-8860-1f5a963e534e",
+    image: "images/products/nestle-classic-milk-chocolate-15-g-product-images-o490997893-p490997893-0-202401301656.webp",
+    name: "Nestle Classic Milk Chocolate Bar - 15g",
+    rating: {
+      stars: 4,
+      count: 450
+    },
+    priceCents: 2000,
+    keywords: [
+      "chocolate",
+      "sweets",
+      "snacks"
+    ]
+  },
+  {
+    id: "dd82ca78-a18b-4e2a-9250-31e67412f990",
+    image: "images/products/punjabi-tadka.webp",
+    name: "Haldiram's Punjabi Tadka Namkeen - 150g",
+    rating: {
+      stars: 5,
+      count: 3200
+    },
+    priceCents: 3500,
+    keywords: [
+      "namkeen",
+      "snacks",
+      "spicy",
+      "haldiram"
+    ]
+  },
+  {
+    id: "77919bbe-0e56-475b-adde-4f24dfed3a07",
+    image: "images/products/tata-chana-dal.jpg",
+    name: "Tata Sampann Unpolished Chana Dal - 500g",
+    rating: {
+      stars: 4.5,
+      count: 1890
+    },
+    priceCents: 6500,
+    keywords: [
+      "dal",
+      "pulses",
+      "grocery",
+      "cooking"
+    ]
   }
 ];
