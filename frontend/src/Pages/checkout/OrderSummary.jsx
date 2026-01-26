@@ -1,27 +1,28 @@
 import { useState } from 'react';
-import { products } from '../../data/products';
 import { moneyFormatting } from '../../utilities/moneyFormatting';
-import { deliveryOptions, calculateDeliveryDate, getSelectedDeliveryOption } from '../../data/deliveryOptions';
+import { calculateDeliveryDate, getSelectedDeliveryOption, deliveryOptions } from '../../data/deliveryOptions';
 import '../checkout/checkout.css';
 
+// The URL where Spring Boot serves static images
+const BACKEND_URL = 'http://localhost:8080';
+
 export function OrderSummary({ cart, updateDeliveryOption, removeFromCart, updateQuantity }) {
+  if (!cart || cart.length === 0) {
+    return <div className="empty-cart-message">Your cart is empty.</div>;
+  }
+
   return (
     <>
-      {cart.map((cartItem) => {
-        const product = products.find((p) => p.id === cartItem.productId);
-        if (!product) return null;
-
-        return (
-          <CartItem 
-            key={product.id}
-            product={product}
-            cartItem={cartItem}
-            updateDeliveryOption={updateDeliveryOption}
-            removeFromCart={removeFromCart}
-            updateQuantity={updateQuantity}
-          />
-        );
-      })}
+      {cart.map((cartItem) => (
+        <CartItem 
+          key={cartItem.product.id}
+          product={cartItem.product} // The backend now nests the full product inside the cart item
+          cartItem={cartItem}
+          updateDeliveryOption={updateDeliveryOption}
+          removeFromCart={removeFromCart}
+          updateQuantity={updateQuantity}
+        />
+      ))}
     </>
   );
 }
@@ -47,6 +48,11 @@ function CartItem({ product, cartItem, updateDeliveryOption, removeFromCart, upd
     }
   };
 
+  const handleCancelClick = () => {
+    setIsEditing(false);
+    setInputValue(cartItem.quantity);
+  };
+
   return (
     <div className="cart-item-container">
       <div className="order-summary js-order-summary">
@@ -55,30 +61,34 @@ function CartItem({ product, cartItem, updateDeliveryOption, removeFromCart, upd
         </div>
 
         <div className="cart-item-details-grid">
-          <img className="product-image" src={product.image} alt={product.name} />
+          <img 
+            className="product-image" 
+            // Appending backend URL to the image path
+            src={`${BACKEND_URL}/${product.image}`} 
+            alt={product.name} 
+          />
 
           <div className="cart-item-details">
             <div className="product-name">{product.name}</div>
             <div className="product-price">
-              ₹{moneyFormatting(product.priceCents * cartItem.quantity)}
+              ₹{moneyFormatting(product.priceCents)}
             </div>
             
             <div className="product-quantity">
               {isEditing ? (
-                <span>
+                <span className="quantity-edit-container">
                   <input 
                     className="quantity-input" 
                     type="number" 
                     min="1"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
-                    style={{ width: '40px', marginRight: '5px' }} 
                   />
-                  <span 
-                    className="save-quantity-link link-primary" 
-                    onClick={handleSaveClick}
-                  >
+                  <span className="save-quantity-link link-primary" onClick={handleSaveClick}>
                     Save
+                  </span>
+                  <span className="delete-quantity-link link-primary" onClick={handleCancelClick}>
+                    Cancel
                   </span>
                 </span>
               ) : (
@@ -86,9 +96,7 @@ function CartItem({ product, cartItem, updateDeliveryOption, removeFromCart, upd
                   Quantity: {cartItem.quantity}
                   <span 
                     className="update-quantity-link link-primary js-update-link"
-                    data-product-id={product.id}
                     onClick={handleUpdateClick}
-                    style={{ cursor: 'pointer', marginLeft: '5px' }}
                   >
                     Update
                   </span>
@@ -97,9 +105,7 @@ function CartItem({ product, cartItem, updateDeliveryOption, removeFromCart, upd
 
               <span 
                 className="delete-quantity-link link-primary js-delete-link"
-                data-product-id={product.id}
                 onClick={() => removeFromCart(product.id)}
-                style={{ cursor: 'pointer' }}
               >
                 Delete
               </span>
@@ -130,6 +136,7 @@ function DeliveryOptions({ product, cartItem, updateDeliveryOption }) {
         const priceString = deliveryOption.priceCents === 0
           ? 'FREE'
           : `₹${moneyFormatting(deliveryOption.priceCents)} -`;
+        
         const isChecked = deliveryOption.id === (cartItem.deliveryOptionId || '1');
 
         return (
@@ -137,14 +144,13 @@ function DeliveryOptions({ product, cartItem, updateDeliveryOption }) {
             key={deliveryOption.id}
             className="delivery-option js-delivery-option"
             onClick={() => updateDeliveryOption(product.id, deliveryOption.id)}
-            style={{ cursor: 'pointer' }}
           >
             <input
               type="radio"
               checked={isChecked}
               className="delivery-option-input"
               name={`delivery-option-${product.id}`}
-              onChange={() => updateDeliveryOption(product.id, deliveryOption.id)}
+              readOnly
             />
             <div>
               <div className="delivery-option-date">
