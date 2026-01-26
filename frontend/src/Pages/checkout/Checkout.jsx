@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import { OrderSummary } from './OrderSummary';
 import { PaymentSummary } from './PaymentSummary';
-import { useCart } from '../../data/Cart'; // Use Hook
+import { useCart } from '../../data/cart';
 import './checkout.css';
 import './checkout-header.css';
 
