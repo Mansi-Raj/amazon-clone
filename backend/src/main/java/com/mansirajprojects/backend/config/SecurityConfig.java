@@ -21,7 +21,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // Disable CSRF for stateless APIs
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**").permitAll() // Allow auth endpoints
-                .requestMatchers("/api/products/**").permitAll() // Allow public product viewing
+                .requestMatchers("/api/products/**").permitAll() 
+                .requestMatchers("/images/**").permitAll()// Allow public product viewing
                 .anyRequest().authenticated() // Protect everything else
             );
         

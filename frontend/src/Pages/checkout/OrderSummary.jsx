@@ -48,10 +48,6 @@ function CartItem({ product, cartItem, updateDeliveryOption, removeFromCart, upd
     }
   };
 
-  const handleCancelClick = () => {
-    setIsEditing(false);
-    setInputValue(cartItem.quantity);
-  };
 
   return (
     <div className="cart-item-container">
@@ -86,9 +82,6 @@ function CartItem({ product, cartItem, updateDeliveryOption, removeFromCart, upd
                   />
                   <span className="save-quantity-link link-primary" onClick={handleSaveClick}>
                     Save
-                  </span>
-                  <span className="delete-quantity-link link-primary" onClick={handleCancelClick}>
-                    Cancel
                   </span>
                 </span>
               ) : (

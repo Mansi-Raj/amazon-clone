@@ -6,7 +6,11 @@ export function CartProvider({ children }) {
   const [cartData, setCartData] = useState({
     items: [],
     cartQuantity: 0,
-    totalCents: 0
+    totalCents: 0,
+    totalProductPriceCents: 0,
+    totalShippingCents: 0,
+    totalBeforeTaxCents: 0,
+    estimatedTaxCents: 0
   });
 
   const getToken = () => localStorage.getItem("token");
@@ -30,9 +34,50 @@ export function CartProvider({ children }) {
     } else {
       // 2. GUEST: Fetch from LocalStorage
       const localCart = JSON.parse(localStorage.getItem('guestCart')) || [];
-      // Calculate basic stats for guest (simulated)
-      const quantity = localCart.reduce((acc, item) => acc + item.quantity, 0);
-      setCartData({ items: localCart, cartQuantity: quantity, totalCents: 0 }); // You might need to fetch product details to calculate price
+      
+      if (localCart.length === 0) {
+        setCartData({ items: [], cartQuantity: 0, totalCents: 0, totalProductPriceCents: 0, totalShippingCents: 0, totalBeforeTaxCents: 0, estimatedTaxCents: 0 });
+        return;
+      }
+
+      try {
+        // Fetch all products to get details (name, image, price)
+        const productRes = await fetch('http://localhost:8080/api/products');
+        const allProducts = await productRes.json();
+
+        // Merge product details into cart items
+        let totalProductPrice = 0;
+        let totalQuantity = 0;
+
+        const hydratedCart = localCart.map(item => {
+          const product = allProducts.find(p => p.id === item.productId);
+          if (product) {
+            totalProductPrice += product.priceCents * item.quantity;
+            totalQuantity += item.quantity;
+            return { ...item, product }; // Attach full product object
+          }
+          return null;
+        }).filter(item => item !== null);
+
+        // Calculate Guest Summaries (Simplified logic)
+        const shipping = 0; // Free shipping for guests or calculate based on deliveryOptionId if needed
+        const totalBeforeTax = totalProductPrice + shipping;
+        const tax = totalBeforeTax * 0.1;
+        const total = totalBeforeTax + tax;
+
+        setCartData({ 
+          items: hydratedCart, 
+          cartQuantity: totalQuantity, 
+          totalProductPriceCents: totalProductPrice,
+          totalShippingCents: shipping,
+          totalBeforeTaxCents: totalBeforeTax,
+          estimatedTaxCents: tax,
+          totalCents: total
+        });
+        
+      } catch (err) {
+        console.error("Error loading guest cart products", err);
+      }
     }
   };
 
@@ -99,6 +144,49 @@ export function CartProvider({ children }) {
     }
   };
 
+  const updateDeliveryOption = async (productId, deliveryOptionId) => {
+     const token = getToken();
+     if(token) {
+         try {
+        await fetch(`http://localhost:8080/api/cart/delivery-option/${productId}?optionId=${deliveryOptionId}`, {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        // Refresh cart to get updated totals/summary
+        fetchCart(); 
+      } catch (error) {
+        console.error("Error updating delivery option:", error);
+      }
+     } else {
+         const localCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+         const item = localCart.find(i => i.productId === productId);
+         if(item) item.deliveryOptionId = deliveryOptionId;
+         localStorage.setItem('guestCart', JSON.stringify(localCart));
+         fetchCart();
+     }
+  }
+
+  const updateQuantity = async (productId, newQuantity) => {
+      const token = getToken();
+      if(token) {
+          try {
+            await fetch(`http://localhost:8080/api/cart/update/${productId}?quantity=${newQuantity}`, {
+              method: 'PUT',
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            fetchCart();
+          } catch (error) {
+            console.error("Error updating quantity:", error);
+          }
+      } else {
+          const localCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+          const item = localCart.find(i => i.productId === productId);
+          if(item) item.quantity = newQuantity;
+          localStorage.setItem('guestCart', JSON.stringify(localCart));
+          fetchCart();
+      }
+  }
+
   return (
     <CartContext.Provider value={{ 
       cart: cartData.items, 
@@ -106,6 +194,8 @@ export function CartProvider({ children }) {
       cartSummary: cartData,
       addToCart, 
       removeFromCart,
+      updateDeliveryOption,
+      updateQuantity,
       mergeGuestCart // Export this!
     }}>
       {children}

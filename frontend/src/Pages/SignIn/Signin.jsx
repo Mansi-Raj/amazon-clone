@@ -9,16 +9,39 @@ export function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // ... perform login fetch ...
-    
-    if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.token); // Save JWT
-        
-        // MERGE CART IMMEDIATELY
-        await mergeGuestCart(); 
+    const email = e.target.elements.email.value;
+    const password = e.target.elements.password.value;
 
-        navigate('/');
+    try {
+      const response = await fetch('http://localhost:8080/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+          const data = await response.json();
+          
+          // Save Token and Name
+          localStorage.setItem('token', data.token);
+          if (data.name) {
+            localStorage.setItem('name', data.name);
+          }
+          
+          // Merge Guest Cart
+          await mergeGuestCart(); 
+
+          // Redirect
+          navigate('/');
+      } else {
+          const errorData = await response.json();
+          alert("Login failed: " + (errorData.error || "Invalid credentials"));
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      alert("Something went wrong. Please try again.");
     }
   };
 
