@@ -2,13 +2,36 @@ package com.mansirajprojects.backend.model;
 
 import java.util.List;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "products")
 public class Product {
+
+    @Id
     private String id;
+
     private String image;
     private String name;
+
+    @Embedded
     private Rating rating;
+
     private Integer priceCents;
+
+    @ElementCollection
+    @CollectionTable(name = "product_keywords", joinColumns = @JoinColumn(name = "product_id"))
+    @Column(name = "keyword")
     private List<String> keywords;
+
     private String type;
     private String sizeChartLink;
 
@@ -30,6 +53,7 @@ public class Product {
     public String getSizeChartLink() { return sizeChartLink; }
     public void setSizeChartLink(String sizeChartLink) { this.sizeChartLink = sizeChartLink; }
 
+    @Embeddable
     public static class Rating {
         private Double stars;
         private Integer count;

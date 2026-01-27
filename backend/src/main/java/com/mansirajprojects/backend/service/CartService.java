@@ -65,8 +65,8 @@ public class CartService {
     private int getDeliveryPrice(String optionId) {
         if (optionId == null) return 0;
         return switch (optionId) {
-            case "2" -> 499;
-            case "3" -> 999;
+            case "2" -> 9900;
+            case "3" -> 13900;
             default -> 0;
         };
     }
