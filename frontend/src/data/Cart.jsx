@@ -3,7 +3,7 @@ import { useEffect, useState, createContext, useContext } from 'react';
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [cartData, setCartData] = useState({
+  const [cartData, setCart] = useState({
     items: [],
     cartQuantity: 0,
     totalCents: 0,
@@ -26,7 +26,7 @@ export function CartProvider({ children }) {
         });
         if (response.ok) {
           const data = await response.json();
-          setCartData(data);
+          setCart(data);
         }
       } catch (error) {
         console.error("Error fetching cart:", error);
@@ -36,7 +36,7 @@ export function CartProvider({ children }) {
       const localCart = JSON.parse(localStorage.getItem('guestCart')) || [];
       
       if (localCart.length === 0) {
-        setCartData({ items: [], cartQuantity: 0, totalCents: 0, totalProductPriceCents: 0, totalShippingCents: 0, totalBeforeTaxCents: 0, estimatedTaxCents: 0 });
+        setCart({ items: [], cartQuantity: 0, totalCents: 0, totalProductPriceCents: 0, totalShippingCents: 0, totalBeforeTaxCents: 0, estimatedTaxCents: 0 });
         return;
       }
 
@@ -65,7 +65,7 @@ export function CartProvider({ children }) {
         const tax = totalBeforeTax * 0.1;
         const total = totalBeforeTax + tax;
 
-        setCartData({ 
+        setCart({ 
           items: hydratedCart, 
           cartQuantity: totalQuantity, 
           totalProductPriceCents: totalProductPrice,
@@ -144,27 +144,18 @@ export function CartProvider({ children }) {
     }
   };
 
-  const updateDeliveryOption = async (productId, deliveryOptionId) => {
-     const token = getToken();
-     if(token) {
-         try {
-        await fetch(`http://localhost:8080/api/cart/delivery-option/${productId}?optionId=${deliveryOptionId}`, {
-          method: 'PUT',
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        // Refresh cart to get updated totals/summary
-        fetchCart(); 
-      } catch (error) {
-        console.error("Error updating delivery option:", error);
-      }
-     } else {
-         const localCart = JSON.parse(localStorage.getItem('guestCart')) || [];
-         const item = localCart.find(i => i.productId === productId);
-         if(item) item.deliveryOptionId = deliveryOptionId;
-         localStorage.setItem('guestCart', JSON.stringify(localCart));
-         fetchCart();
-     }
-  }
+  const updateDeliveryOption = (productId, deliveryOptionId) => {
+    setCart(prevCart => {
+      const newCart = prevCart.map(item => {
+        if (item.productId === productId) {
+          // Create a NEW object for the updated item
+          return { ...item, deliveryOptionId: deliveryOptionId };
+        }
+        return item;
+      });
+      return newCart;
+    });
+  };
 
   const updateQuantity = async (productId, newQuantity) => {
       const token = getToken();

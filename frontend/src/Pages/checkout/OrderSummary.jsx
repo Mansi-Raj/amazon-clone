@@ -16,7 +16,7 @@ export function OrderSummary({ cart, updateDeliveryOption, removeFromCart, updat
       {cart.map((cartItem) => (
         <CartItem 
           key={cartItem.product.id}
-          product={cartItem.product} // The backend now nests the full product inside the cart item
+          product={cartItem.product}
           cartItem={cartItem}
           updateDeliveryOption={updateDeliveryOption}
           removeFromCart={removeFromCart}
@@ -31,9 +31,10 @@ function CartItem({ product, cartItem, updateDeliveryOption, removeFromCart, upd
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(cartItem.quantity);
 
-  const deliveryOptionId = cartItem.deliveryOptionId || '1';
+  // Use String() to ensure we match '1' (string) with 1 (number) if necessary
+  const deliveryOptionId = String(cartItem.deliveryOptionId || '1');
   const deliveryOption = getSelectedDeliveryOption(deliveryOptionId);
-  const dateString = calculateDeliveryDate(deliveryOption);
+  const dateString = calculateDeliveryDate(deliveryOption || deliveryOptions[0]); // Fallback safely
 
   const handleUpdateClick = () => {
     setInputValue(cartItem.quantity);
@@ -48,7 +49,6 @@ function CartItem({ product, cartItem, updateDeliveryOption, removeFromCart, upd
     }
   };
 
-
   return (
     <div className="cart-item-container">
       <div className="order-summary js-order-summary">
@@ -59,7 +59,6 @@ function CartItem({ product, cartItem, updateDeliveryOption, removeFromCart, upd
         <div className="cart-item-details-grid">
           <img 
             className="product-image" 
-            // Appending backend URL to the image path
             src={`${BACKEND_URL}/${product.image}`} 
             alt={product.name} 
           />
@@ -130,7 +129,8 @@ function DeliveryOptions({ product, cartItem, updateDeliveryOption }) {
           ? 'FREE'
           : `₹${moneyFormatting(deliveryOption.priceCents)} -`;
         
-        const isChecked = deliveryOption.id === (cartItem.deliveryOptionId || '1');
+        // FIX: Compare as strings to prevent Type Mismatches (1 vs '1')
+        const isChecked = String(deliveryOption.id) === String(cartItem.deliveryOptionId || '1');
 
         return (
           <div
@@ -140,10 +140,11 @@ function DeliveryOptions({ product, cartItem, updateDeliveryOption }) {
           >
             <input
               type="radio"
-              checked={isChecked}
               className="delivery-option-input"
               name={`delivery-option-${product.id}`}
-              readOnly
+              checked={isChecked}
+              // onChange is needed to avoid React warnings, but the parent div's onClick handles the logic
+              onChange={() => updateDeliveryOption(product.id, deliveryOption.id)}
             />
             <div>
               <div className="delivery-option-date">

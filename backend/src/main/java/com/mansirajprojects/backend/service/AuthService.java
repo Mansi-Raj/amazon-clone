@@ -1,6 +1,6 @@
 package com.mansirajprojects.backend.service;
 
-import java.util.UUID;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,45 +19,78 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtUtils jwtUtils;
-    @Autowired
+    @Autowired 
     private EmailService emailService;
 
-    public String register(String email, String password, String siteURL) throws Exception {
+    public String register(String name, String username, String email, String password) throws Exception {
         if (userRepository.findByEmail(email).isPresent()) {
-            throw new RuntimeException("Email already exists");
+            throw new RuntimeException("Email is already registered. Please Sign In.");
+        }
+        if (userRepository.findByUsername(username).isPresent()) {
+             throw new RuntimeException("Username is taken.");
         }
         
+        // Generate 6-digit OTP
+        String otp = String.format("%06d", new Random().nextInt(999999));
+
         String encodedPassword = passwordEncoder.encode(password);
-        String randomCode = UUID.randomUUID().toString();
-        User user = new User(email, encodedPassword, randomCode);
+        
+        // Save User (Enabled = false initially)
+        User user = new User(name, username, email, encodedPassword);
+        user.setVerificationCode(otp);
+        user.setEnabled(false); // Validating via OTP now
         
         userRepository.save(user);
-        emailService.sendVerificationEmail(user, siteURL);
-        return "Registration successful. Please check your email to verify.";
+        
+        // Send OTP
+        emailService.sendOtpEmail(email, otp);
+        
+        return "OTP sent to your email.";
     }
 
-    public boolean verify(String verificationCode) {
-        User user = userRepository.findByVerificationCode(verificationCode);
-        if (user == null || user.isEnabled()) {
-            return false;
-        } else {
-            user.setVerificationCode(null);
-            user.setEnabled(true);
-            userRepository.save(user);
-            return true;
-        }
-    }
-
-    public String login(String email, String password) {
+    public Map<String, String> verifyOtp(String email, String otp) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.isEnabled()) {
+             throw new RuntimeException("User is already verified. Please Login.");
+        }
+
+        if (user.getVerificationCode() == null || !user.getVerificationCode().equals(otp)) {
+            throw new RuntimeException("Invalid OTP");
+        }
+
+        // Activate User
+        user.setEnabled(true);
+        user.setVerificationCode(null); // Clear OTP after use
+        userRepository.save(user);
+
+        // Auto-Login: Generate Token
+        String token = jwtUtils.generateJwtToken(email);
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+        response.put("name", user.getName());
+        return response;
+    }
+
+    public Map<String, String> login(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Provided email is not registered"));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
+
         if (!user.isEnabled()) {
-            throw new RuntimeException("Account not verified. Please check email.");
+            throw new RuntimeException("Account not verified. Please verify OTP.");
         }
-        return jwtUtils.generateJwtToken(email);
+
+        String token = jwtUtils.generateJwtToken(email);
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+        response.put("name", user.getName());
+        return response;
     }
 }

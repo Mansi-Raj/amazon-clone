@@ -1,4 +1,5 @@
-import { Link, useState, useEffect } from 'react-router';
+import { Link} from 'react-router';
+import { useState, useEffect } from 'react';
 import './header.css';
 
 export function Header({ cartQuantity, setSearch }){
@@ -69,8 +70,8 @@ export function Header({ cartQuantity, setSearch }){
           </div>
         ) : (
           <Link className="orders-link header-link" to="/signin">
-            <span className="returns-text">Hello, sign in</span>
-            <span className="orders-text">Account & Lists</span>
+            <span className="returns-text">Hello,</span>
+            <span className="orders-text">Sign in</span>
           </Link>
         )}
 

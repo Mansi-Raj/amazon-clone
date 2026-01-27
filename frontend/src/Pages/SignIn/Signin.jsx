@@ -1,11 +1,13 @@
 import { Link } from 'react-router';
-import { useCart } from '../../data/cart';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useCart } from '../../data/cart';
 import './signin.css';
 
 export function SignIn() {
   const navigate = useNavigate();
-  const { mergeGuestCart } = useCart(); // Get the merge function
+  const { mergeGuestCart } = useCart();
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,9 +23,9 @@ export function SignIn() {
         body: JSON.stringify({ email, password }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-          const data = await response.json();
-          
           // Save Token and Name
           localStorage.setItem('token', data.token);
           if (data.name) {
@@ -36,12 +38,10 @@ export function SignIn() {
           // Redirect
           navigate('/');
       } else {
-          const errorData = await response.json();
-          alert("Login failed: " + (errorData.error || "Invalid credentials"));
+          setError(data.error || "Invalid credentials");
       }
     } catch (error) {
-      console.error("Login Error:", error);
-      alert("Something went wrong. Please try again.");
+      setError("Something went wrong. Please try again.");
     }
   };
 

@@ -48,11 +48,6 @@ export function Product({ products, addToCart }) {
 
           <div className="product-spacer"></div>
 
-          <div className="added-to-cart">
-            <img src="images/icons/checkmark.png" alt="Added" />
-            Added
-          </div>
-
           <button 
             className="add-to-cart-button button-primary"
             onClick={() => {
