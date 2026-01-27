@@ -1,7 +1,27 @@
 import { Link } from 'react-router';
+import { useCart } from '../../data/cart';
+import { useNavigate } from 'react-router-dom';
 import './signin.css';
 
 export function SignIn() {
+  const navigate = useNavigate();
+  const { mergeGuestCart } = useCart(); // Get the merge function
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // ... perform login fetch ...
+    
+    if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('token', data.token); // Save JWT
+        
+        // MERGE CART IMMEDIATELY
+        await mergeGuestCart(); 
+
+        navigate('/');
+    }
+  };
+
   return (
     <>
     <title>Sign In</title>

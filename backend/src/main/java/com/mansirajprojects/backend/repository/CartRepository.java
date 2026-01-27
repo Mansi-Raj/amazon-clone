@@ -1,15 +1,22 @@
 package com.mansirajprojects.backend.repository;
 
-import com.mansirajprojects.backend.model.CartItem;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
+
+import com.mansirajprojects.backend.model.CartItem;
+import com.mansirajprojects.backend.model.User;
 
 @Repository
 public interface CartRepository extends JpaRepository<CartItem, Long> {
-    // Custom query to find an item by its product ID
-    Optional<CartItem> findByProductId(String productId);
-    
-    // Helper to delete by product ID
-    void deleteByProductId(String productId);
+    // Find all items belonging to a specific user
+    List<CartItem> findByUser(User user);
+
+    // Find a specific product in a specific user's cart
+    Optional<CartItem> findByUserAndProductId(User user, String productId);
+
+    // Delete a specific product from a specific user's cart
+    void deleteByUserAndProductId(User user, String productId);
 }

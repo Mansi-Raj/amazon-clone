@@ -1,49 +1,42 @@
 package com.mansirajprojects.backend.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.mansirajprojects.backend.model.CartSummary;
 import com.mansirajprojects.backend.service.CartService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/cart")
+@CrossOrigin(origins = "http://localhost:5173")
 public class CartController {
-    @Autowired private CartService cartService;
+
+    @Autowired
+    private CartService cartService;
 
     @GetMapping
-    public CartSummary getCart() {
-        return cartService.getCartSummary();
+    public CartSummary getCart(Principal principal) {
+        return cartService.getCartSummary(principal.getName());
     }
 
     @PostMapping("/add")
-    public CartSummary addToCart(@RequestParam String productId, @RequestParam int quantity) {
-        cartService.addToCart(productId, quantity);
-        return cartService.getCartSummary();
+    public void addToCart(@RequestParam String productId, @RequestParam int quantity, Principal principal) {
+        cartService.addToCart(principal.getName(), productId, quantity);
     }
 
     @DeleteMapping("/remove/{productId}")
-    public CartSummary removeFromCart(@PathVariable String productId) {
-        cartService.removeFromCart(productId);
-        return cartService.getCartSummary();
+    public void removeFromCart(@PathVariable String productId, Principal principal) {
+        cartService.removeFromCart(principal.getName(), productId);
     }
 
     @PutMapping("/update/{productId}")
-    public CartSummary updateQuantity(@PathVariable String productId, @RequestParam int quantity) {
-        cartService.updateQuantity(productId, quantity);
-        return cartService.getCartSummary();
+    public void updateQuantity(@PathVariable String productId, @RequestParam int quantity, Principal principal) {
+        cartService.updateQuantity(principal.getName(), productId, quantity);
     }
 
     @PutMapping("/delivery-option/{productId}")
-    public CartSummary updateDeliveryOption(@PathVariable String productId, @RequestParam String optionId) {
-        cartService.updateDeliveryOption(productId, optionId);
-        return cartService.getCartSummary();
+    public void updateDeliveryOption(@PathVariable String productId, @RequestParam String optionId, Principal principal) {
+        cartService.updateDeliveryOption(principal.getName(), productId, optionId);
     }
 }

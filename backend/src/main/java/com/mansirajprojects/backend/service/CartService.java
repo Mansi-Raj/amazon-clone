@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mansirajprojects.backend.model.CartItem;
 import com.mansirajprojects.backend.model.CartSummary;
 import com.mansirajprojects.backend.model.Product;
+import com.mansirajprojects.backend.model.User;
 import com.mansirajprojects.backend.repository.CartRepository;
+import com.mansirajprojects.backend.repository.UserRepository;
 
 @Service
 public class CartService {
@@ -21,21 +23,69 @@ public class CartService {
     @Autowired
     private ProductService productService;
 
-    public CartSummary getCartSummary() {
-        CartSummary summary = new CartSummary();
-        // 1. Fetch items from Database
-        List<CartItem> cartItems = cartRepository.findAll();
+    @Autowired
+    private UserRepository userRepository;
 
-        // 2. Populate the transient 'Product' object for each item
-        // (Because the DB only stored the ID string)
+    // Helper to get User entity from email
+    private User getUser(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public CartSummary getCartSummary(String userEmail) {
+        User user = getUser(userEmail);
+        List<CartItem> cartItems = cartRepository.findByUser(user);
+        return calculateSummary(cartItems);
+    }
+
+    public void addToCart(String userEmail, String productId, int quantity) {
+        User user = getUser(userEmail);
+        Optional<CartItem> existing = cartRepository.findByUserAndProductId(user, productId);
+
+        if (existing.isPresent()) {
+            CartItem item = existing.get();
+            item.setQuantity(item.getQuantity() + quantity);
+            cartRepository.save(item);
+        } else {
+            if (productService.getProductById(productId).isPresent()) {
+                CartItem newItem = new CartItem(productId, quantity, "1", user);
+                cartRepository.save(newItem);
+            }
+        }
+    }
+
+    @Transactional
+    public void removeFromCart(String userEmail, String productId) {
+        User user = getUser(userEmail);
+        cartRepository.deleteByUserAndProductId(user, productId);
+    }
+
+    public void updateQuantity(String userEmail, String productId, int newQuantity) {
+        User user = getUser(userEmail);
+        cartRepository.findByUserAndProductId(user, productId).ifPresent(item -> {
+            item.setQuantity(newQuantity);
+            cartRepository.save(item);
+        });
+    }
+
+    public void updateDeliveryOption(String userEmail, String productId, String optionId) {
+        User user = getUser(userEmail);
+        cartRepository.findByUserAndProductId(user, productId).ifPresent(item -> {
+            item.setDeliveryOptionId(optionId);
+            cartRepository.save(item);
+        });
+    }
+
+    private CartSummary calculateSummary(List<CartItem> cartItems) {
+        CartSummary summary = new CartSummary();
+        
+        // Populate transient Product objects
         for (CartItem item : cartItems) {
             Product p = productService.getProductById(item.getProductId()).orElse(null);
             item.setProduct(p);
         }
-
         summary.setItems(cartItems);
         
-        // 3. Calculate Totals (Logic remains mostly the same)
         long productPrice = 0;
         long shippingPrice = 0;
         int quantity = 0;
@@ -65,44 +115,9 @@ public class CartService {
     private int getDeliveryPrice(String optionId) {
         if (optionId == null) return 0;
         return switch (optionId) {
-            case "2" -> 9900;
-            case "3" -> 13900;
+            case "2" -> 499;
+            case "3" -> 999;
             default -> 0;
         };
-    }
-
-    public void addToCart(String productId, int quantity) {
-        Optional<CartItem> existing = cartRepository.findByProductId(productId);
-
-        if (existing.isPresent()) {
-            CartItem item = existing.get();
-            item.setQuantity(item.getQuantity() + quantity);
-            cartRepository.save(item);
-        } else {
-            // Validate product exists before adding
-            if (productService.getProductById(productId).isPresent()) {
-                CartItem newItem = new CartItem(productId, quantity, "1");
-                cartRepository.save(newItem);
-            }
-        }
-    }
-
-    @Transactional // Required for delete operations
-    public void removeFromCart(String productId) {
-        cartRepository.deleteByProductId(productId);
-    }
-
-    public void updateQuantity(String productId, int newQuantity) {
-        cartRepository.findByProductId(productId).ifPresent(item -> {
-            item.setQuantity(newQuantity);
-            cartRepository.save(item);
-        });
-    }
-
-    public void updateDeliveryOption(String productId, String optionId) {
-        cartRepository.findByProductId(productId).ifPresent(item -> {
-            item.setDeliveryOptionId(optionId);
-            cartRepository.save(item);
-        });
     }
 }
