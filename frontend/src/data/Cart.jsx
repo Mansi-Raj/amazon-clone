@@ -83,7 +83,8 @@ export function CartProvider({ children }) {
 
   useEffect(() => {
     fetchCart();
-  }, []); // Run once on mount
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); 
 
   const addToCart = async (productId, quantity) => {
     const token = getToken();
@@ -144,17 +145,30 @@ export function CartProvider({ children }) {
     }
   };
 
-  const updateDeliveryOption = (productId, deliveryOptionId) => {
-    setCart(prevCart => {
-      const newCart = prevCart.map(item => {
-        if (item.productId === productId) {
-          // Create a NEW object for the updated item
-          return { ...item, deliveryOptionId: deliveryOptionId };
-        }
-        return item;
-      });
-      return newCart;
-    });
+  const updateDeliveryOption = async (productId, deliveryOptionId) => {
+    const token = getToken();
+
+    if (token) {
+      // 1. Update the Server
+      try {
+        await fetch(`http://localhost:8080/api/cart/delivery-option/${productId}?optionId=${deliveryOptionId}`, {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        // 2. Refresh the cart from server to update summaries and dates
+        fetchCart();
+      } catch (error) {
+        console.error("Error updating delivery option:", error);
+      }
+    } else {
+      const localCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+      const item = localCart.find(i => i.productId === productId);
+      if (item) {
+        item.deliveryOptionId = deliveryOptionId;
+        localStorage.setItem('guestCart', JSON.stringify(localCart));
+        fetchCart();
+      }
+    }
   };
 
   const updateQuantity = async (productId, newQuantity) => {
@@ -194,6 +208,7 @@ export function CartProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useCart() {
   return useContext(CartContext);
 }
