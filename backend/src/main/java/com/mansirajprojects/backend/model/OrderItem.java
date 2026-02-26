@@ -1,9 +1,13 @@
 package com.mansirajprojects.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -12,6 +16,11 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    @JsonIgnore 
+    private Order order;
 
     private String productId; // This links to your String UUID in Product.java
     private String productName;
@@ -22,6 +31,8 @@ public class OrderItem {
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+    public Order getOrder() { return order; }
+    public void setOrder(Order order) { this.order = order; }
     public String getProductId() { return productId; }
     public void setProductId(String productId) { this.productId = productId; }
     public String getProductName() { return productName; }

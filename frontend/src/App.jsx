@@ -1,9 +1,13 @@
-import { useCart } from '../src/data/cart';
 import { Routes, Route } from 'react-router';
+import { useCart } from '../src/data/cart';
 import { HomePage } from './Pages/Homepage';
 import { Checkout } from './Pages/checkout/Checkout';
 import { SignIn } from './Pages/SignIn/Signin';
 import { SignUp } from './Pages/SignIn/Signup';
+import { AdminLayout } from './Pages/Admin/AdminLayout';
+import { AdminDashboard } from './Pages/Admin/AdminDashboard';
+import { AdminProducts } from './Pages/Admin/AdminProducts';
+import { AdminOrders } from './Pages/Admin/AdminOrders';
 import './App.css';
 
 function App() {
@@ -23,6 +27,12 @@ function App() {
 
       <Route path='/signin' element={<SignIn />} />
       <Route path='/signup' element={<SignUp />} />
+
+      <Route path='/admin' element={<AdminLayout />}/>
+
+      <Route path='dashboard' element={<AdminDashboard />} />
+      <Route path='products' element={<AdminProducts />} />
+      <Route path='orders' element={<AdminOrders />} />
     </Routes>
   )
 }

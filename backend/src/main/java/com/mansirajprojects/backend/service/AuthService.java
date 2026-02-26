@@ -66,7 +66,7 @@ public class AuthService {
         userRepository.save(user);
 
         // Auto-Login: Generate Token
-        String token = jwtUtils.generateJwtToken(email);
+        String token = jwtUtils.generateJwtToken(email, user.getRole());
         
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
@@ -86,7 +86,7 @@ public class AuthService {
             throw new RuntimeException("Account not verified. Please verify OTP.");
         }
 
-        String token = jwtUtils.generateJwtToken(email);
+        String token = jwtUtils.generateJwtToken(email, user.getRole());
         
         Map<String, String> response = new HashMap<>();
         response.put("token", token);

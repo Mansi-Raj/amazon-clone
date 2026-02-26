@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "users")
 public class User {
-  @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -25,18 +25,26 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    private String role; // "ROLE_CUSTOMER" or "ROLE_ADMIN"
+
     private boolean enabled; // For email verification
     private String verificationCode;
 
-    // Constructors, Getters, Setters
+    // --- Constructors ---
+    
     public User() {}
 
-    public User(String email, String password, String verificationCode, String encodedPassword) {
+    // This is the constructor AuthService was looking for
+    public User(String name, String username, String email, String password) {
+        this.name = name;
+        this.username = username;
         this.email = email;
         this.password = password;
-        this.verificationCode = verificationCode;
-        this.enabled = true; // Disabled until verified
+        this.enabled = false; // Default to false until OTP verified
+        this.role = "ROLE_CUSTOMER"; // Default role
     }
+
+    // --- Getters and Setters ---
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -55,6 +63,10 @@ public class User {
     
     public boolean isEnabled() { return enabled; }
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
+
     public String getVerificationCode() { return verificationCode; }
     public void setVerificationCode(String verificationCode) { this.verificationCode = verificationCode; }
+
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 }
