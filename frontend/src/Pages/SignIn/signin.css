@@ -31,6 +31,36 @@
   margin-top: 0;
 }
 
+/* --- NEW TOGGLE STYLES --- */
+.login-toggle {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.toggle-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #767676;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.toggle-btn:hover {
+  color: #111;
+}
+
+.toggle-btn.active {
+  color: #e77600;
+  border-bottom: 3px solid #e77600;
+}
+/* ------------------------- */
+
 .signin-label {
   display: block;
   font-size: 13px;
@@ -159,8 +189,9 @@
 }
 
 .signin-footer {
-  margin-top: 30px;
+  margin-top: auto; /* This forces the footer to the bottom of the flex container */
   padding-top: 20px;
+  padding-bottom: 30px; /* Added some breathing room at the bottom */
   width: 100%;
   border-top: 1px solid #e7e7e7;
   background: linear-gradient(to bottom,rgba(0,0,0,.14),rgba(0,0,0,.03) 3px,transparent);

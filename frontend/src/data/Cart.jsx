@@ -1,4 +1,5 @@
 import { useEffect, useState, createContext, useContext } from 'react';
+import { deliveryOptions } from './deliveryOptions';
 
 const CartContext = createContext();
 
@@ -47,6 +48,7 @@ export function CartProvider({ children }) {
 
         // Merge product details into cart items
         let totalProductPrice = 0;
+        let totalShipping = 0;
         let totalQuantity = 0;
 
         const hydratedCart = localCart.map(item => {
@@ -54,14 +56,17 @@ export function CartProvider({ children }) {
           if (product) {
             totalProductPrice += product.priceCents * item.quantity;
             totalQuantity += item.quantity;
-            return { ...item, product }; // Attach full product object
+            const deliveryOptionId = item.deliveryOptionId || '1';
+            const deliveryOption = deliveryOptions.find(opt => opt.id === deliveryOptionId) || deliveryOptions[0];
+            totalShipping += deliveryOption.priceCents;
+
+            return { ...item, product }; 
           }
           return null;
         }).filter(item => item !== null);
 
-        // Calculate Guest Summaries (Simplified logic)
-        const shipping = 0; // Free shipping for guests or calculate based on deliveryOptionId if needed
-        const totalBeforeTax = totalProductPrice + shipping;
+        // 4. Use calculated totalShipping instead of 0
+        const totalBeforeTax = totalProductPrice + totalShipping;
         const tax = totalBeforeTax * 0.1;
         const total = totalBeforeTax + tax;
 
@@ -69,7 +74,7 @@ export function CartProvider({ children }) {
           items: hydratedCart, 
           cartQuantity: totalQuantity, 
           totalProductPriceCents: totalProductPrice,
-          totalShippingCents: shipping,
+          totalShippingCents: totalShipping,
           totalBeforeTaxCents: totalBeforeTax,
           estimatedTaxCents: tax,
           totalCents: total
